@@ -235,10 +235,37 @@ def ufunc():
 
             code.interact(banner="", local=locals())
 
+def use_matrix():
+    a = np.matrix([[1, 2, 3], [5, 5, 6], [7, 9, 9]])
+    print(a)
+    print(a*a**-1)
+
+    a = np.arange(12).reshape(2, 3, 2)
+    b = np.arange(12, 24).reshape(2, 2, 3)
+    c = np.dot(a, b)
+
+    # print(a)
+    # print(b)
+    # print(c)
+
+    a = np.arange(12).reshape(2, 3, 2)
+    b = np.arange(12, 24).reshape(2, 3, 2)
+    c = np.inner(a, b)
+    print(a)
+    print(b)
+    print(c)
+
+    print(np.outer([1,2,3],[4,5,6,7]))
+
+    a = np.random.rand(10, 10)
+    b = np.random.rand(10)
+    x = np.linalg.solve(a, b)
+    print(np.sum(np.abs(np.dot(a, x) - b)))
 
 if __name__ == "__main__":
     # create_array()
     # read_write()
     # multi_d_array()
     # struct_array()
-    ufunc()
+    # ufunc()
+    use_matrix()
