@@ -1,4 +1,8 @@
 import numpy as np
+import math
+import time
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 debug = False
 
@@ -146,9 +150,95 @@ def struct_array():
     print(a[1]["name"])
     print(a[:]["name"])
 
+    if debug is True:
+        try:
+            import IPython
+
+            IPython.embed()
+        except:
+            import code
+
+            code.interact(banner="", local=locals())
+
+
+def ufunc():
+    x = np.linspace(0, 2 * np.pi, 10)
+    y = np.sin(x)
+    print(y)
+
+    t = np.sin(x, x)
+    print(t)
+    print(id(t) == id(x))
+
+    x = [i * 0.001 for i in range(1000000)]
+    start = time.clock()
+    for i, t in enumerate(x):
+        x[i] = math.sin(t)
+    print("math.sin:", time.clock() - start)
+
+    x = [i * 0.001 for i in range(1000000)]
+    x = np.array(x)
+    start = time.clock()
+    np.sin(x, x)
+    print("numpy.sin:", time.clock() - start)
+
+    a = np.arange(0, 4)
+    b = np.arange(1, 5)
+    print(a)
+    print(b)
+    print(a + b)
+
+    def triangle_func(c, c0, hc):
+        def trifunc(x):
+            x = x - int(x)  # 三角波的周期为1，因此只取x坐标的小数部分进行计算
+            if x >= c:
+                r = 0.0
+            elif x < c0:
+                r = x / c0 * hc
+            else:
+                r = (c - x) / (c - c0) * hc
+            return r
+
+        # 用trifunc函数创建一个ufunc函数，可以直接对数组进行计算, 不过通过此函数
+        # 计算得到的是一个Object数组，需要进行类型转换
+        return np.frompyfunc(trifunc, 1, 1)
+
+    y2 = triangle_func(0.6, 0.4, 1.0)(x)
+
+    fig = plt.figure()
+    X, Y = np.ogrid[-2:2:20j, -2:2:20j]
+    Z = X * np.exp(- X ** 2 - Y ** 2)
+    ax = Axes3D(fig)
+    ax.plot_surface(X, Y, Z, rstride=1, cstride=1, cmap='hot')
+    plt.show()
+
+    a = np.add.reduce([1, 2, 3])
+    b = np.add.reduce([[1, 2, 3], [4, 5, 6]], axis=1)
+    c = np.add.accumulate([[1, 2, 3], [4, 5, 6]], axis=1)
+    print(a)
+    print(b)
+    print(c)
+
+    a = np.array([1, 2, 3, 4])
+    result = np.add.reduceat(a, indices=[0, 1, 0, 2, 0, 3, 0])
+    print(result)
+
+    print(np.multiply.outer([1,2,3,4,5],[2,3,4]))
+
+    if debug is True:
+        try:
+            import IPython
+
+            IPython.embed()
+        except:
+            import code
+
+            code.interact(banner="", local=locals())
+
 
 if __name__ == "__main__":
     # create_array()
     # read_write()
     # multi_d_array()
-    struct_array()
+    # struct_array()
+    ufunc()
