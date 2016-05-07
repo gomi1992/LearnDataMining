@@ -109,10 +109,46 @@ def multi_d_array():
     多维数组
     :return:
     """
-    pass
+    a = np.arange(0, 60, 10).reshape(-1, 1) + np.arange(0, 6)
+    print(a)
+    print(a[(0, 1, 2, 3, 4), (1, 2, 3, 4, 5)])
+    print(a[3:, [0, 2, 5]])
+
+    if debug is True:
+        try:
+            import IPython
+
+            IPython.embed()
+        except:
+            import code
+
+            code.interact(banner="", local=locals())
+
+
+def struct_array():
+    """
+    结构数组
+    :return:
+    """
+    persontype = np.dtype({
+        'names': ['name', 'age', 'weight'],
+        'formats': ['S32', 'i', 'f']})
+    a = np.array([("Zhang", 32, 75.5), ("Wang", 24, 65.2)],
+                 dtype=persontype)
+
+    print(a)
+    print(a.dtype)
+    print(a[0])
+    print(a[0].dtype)
+
+    c = a[1]
+    c["name"] = "Li"
+    print(a[1]["name"])
+    print(a[:]["name"])
 
 
 if __name__ == "__main__":
     # create_array()
     # read_write()
-    multi_d_array()
+    # multi_d_array()
+    struct_array()
