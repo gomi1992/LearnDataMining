@@ -223,7 +223,7 @@ def ufunc():
     result = np.add.reduceat(a, indices=[0, 1, 0, 2, 0, 3, 0])
     print(result)
 
-    print(np.multiply.outer([1,2,3,4,5],[2,3,4]))
+    print(np.multiply.outer([1, 2, 3, 4, 5], [2, 3, 4]))
 
     if debug is True:
         try:
@@ -235,10 +235,12 @@ def ufunc():
 
             code.interact(banner="", local=locals())
 
+
 def use_matrix():
+    # http://www.bubuko.com/infodetail-790904.html
     a = np.matrix([[1, 2, 3], [5, 5, 6], [7, 9, 9]])
     print(a)
-    print(a*a**-1)
+    print(a * a ** -1)
 
     a = np.arange(12).reshape(2, 3, 2)
     b = np.arange(12, 24).reshape(2, 2, 3)
@@ -255,12 +257,39 @@ def use_matrix():
     print(b)
     print(c)
 
-    print(np.outer([1,2,3],[4,5,6,7]))
+    print(np.outer([1, 2, 3], [4, 5, 6, 7]))
 
     a = np.random.rand(10, 10)
     b = np.random.rand(10)
     x = np.linalg.solve(a, b)
     print(np.sum(np.abs(np.dot(a, x) - b)))
+
+
+def np_random():
+    # http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.random.html#numpy.random.random
+    # 生成长度为10，在[0,1)之间平均分布的随机数组
+    rarray = np.random.random(size=10)
+    print(rarray)
+    rarray = np.random.random((10,))
+    print(rarray)
+    # 生成在-0.1到0.1之间的平均分布
+    rarray = 0.2 * np.random.random(size=10) - 0.1
+    print(rarray)
+    rarray = np.random.uniform(-0.1, 0.1, size=10)
+    print(rarray)
+
+    # http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.normal.html#numpy.random.normal
+    mu, sigma = 0, 0.1  # 均值与标准差
+    rarray = np.random.normal(mu, sigma, 10)
+    print(rarray)
+
+    mu, sigma = 0, 0.1  # mean and standard deviation
+    s = np.random.normal(mu, sigma, 1000)
+    count, bins, ignored = plt.hist(s, 30, normed=True)
+    plt.plot(bins, 1 / (sigma * np.sqrt(2 * np.pi)) * np.exp(- (bins - mu) ** 2 / (2 * sigma ** 2)), linewidth=2,
+             color='r')
+    plt.show()
+
 
 if __name__ == "__main__":
     # create_array()
@@ -268,4 +297,5 @@ if __name__ == "__main__":
     # multi_d_array()
     # struct_array()
     # ufunc()
-    use_matrix()
+    # use_matrix()
+    np_random()
