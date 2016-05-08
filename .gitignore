@@ -1,5 +1,7 @@
 *.pyc
 
+.ipynb_checkpoints
+
 # IDEA project files
 *.iml
 .idea/
