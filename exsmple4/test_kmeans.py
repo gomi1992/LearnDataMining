@@ -1,4 +1,4 @@
-from numpy import *
+import numpy as np
 import time
 import matplotlib.pyplot as plt
 import kmeans
@@ -13,7 +13,7 @@ for line in fileIn.readlines():
 
 ## step 2: clustering...
 print("step 2: clustering...")
-dataSet = mat(dataSet)
+dataSet = np.mat(dataSet)
 k = 4
 centroids, clusterAssment = kmeans.kmeans(dataSet, k)
 
